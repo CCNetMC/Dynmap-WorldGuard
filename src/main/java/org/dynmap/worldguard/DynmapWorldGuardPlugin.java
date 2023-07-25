@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sk89q.worldguard.util.profile.cache.ProfileCache;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,7 +28,6 @@ import org.dynmap.markers.AreaMarker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerSet;
 
-import com.sk89q.squirrelid.cache.ProfileCache;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
@@ -286,6 +286,9 @@ public class DynmapWorldGuardPlugin extends JavaPlugin {
             String desc = formatInfoWindow(region, m);
 
             m.setDescription(desc); /* Set popup */
+
+            RegionRenderEvent renderEvent = new RegionRenderEvent(region.getId(), m);
+            Bukkit.getPluginManager().callEvent(renderEvent);
 
             /* Add to map */
             newmap.put(markerid, m);
